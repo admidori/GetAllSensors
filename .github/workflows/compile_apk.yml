@@ -1,0 +1,27 @@
+name: Android compile workflow
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Setup gradle
+        run: |
+            ./gradlew tasks
+            ./gradlew assembleDebug
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v4
+        with:
+          name: uploaded_apk_file
+          path: app/build/outputs/apk/debug/app-debug.apk
+# create app at ./app/build/outputs/apk/debug
