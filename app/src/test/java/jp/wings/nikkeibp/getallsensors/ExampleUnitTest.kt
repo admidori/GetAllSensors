@@ -1,4 +1,4 @@
-package jp.wings.nikkeibp.getallsensors
+package com.example.getallsensors
 
 import org.junit.Test
 

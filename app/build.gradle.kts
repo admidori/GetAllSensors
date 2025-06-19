@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "jp.wings.nikkeibp.getallsensors"
+    namespace = "com.example.getallsensors"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "jp.wings.nikkeibp.getallsensors"
+        applicationId = "com.example.getallsensors"
         minSdk = 30
         targetSdk = 34
         versionCode = 1
