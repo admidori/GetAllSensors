@@ -16,12 +16,14 @@ class ListAdapter (private val context: Context, private val sensorList: ArrayLi
         val view: View = LayoutInflater.from(context).inflate(R.layout.list_item, parent,false)
         val name = view.findViewById<TextView>(R.id.name)
         val power = view.findViewById<TextView>(R.id.power)
+        val type = view.findViewById<TextView>(R.id.type)
         val mindelay = view.findViewById<TextView>(R.id.mindelay)
 
         val sensor = sensorList[position]
 
         name.text = resources.getString(R.string.sensor_name, sensor.name)
         power.text = resources.getString(R.string.sensor_power, sensor.power)
+        type.text = resources.getString(R.string.sensor_type, sensor.type)
         mindelay.text = resources.getString(R.string.sensor_mindelay, sensor.mindelay)
 
         return view

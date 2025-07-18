@@ -2,6 +2,8 @@ package com.example.getallsensors
 
 import android.content.Context
 import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
@@ -11,9 +13,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
     private lateinit var sensorManager: SensorManager
     private lateinit var sensorList: ArrayList<SensorObject>
+    private lateinit var sensors: ArrayList<SensorObject>
 
     companion object{
         lateinit var instance: MainActivity
@@ -40,6 +43,7 @@ class MainActivity : AppCompatActivity() {
             sensorList.add(SensorObject().apply {
                 name = sensor.name
                 power = sensor.power
+                type = sensorTypeToConstName(sensor.type)
                 mindelay = sensor.minDelay
             })
         }

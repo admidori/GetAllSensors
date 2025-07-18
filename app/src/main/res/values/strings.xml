@@ -2,6 +2,7 @@
     <string name="app_name">GetAllSensors</string>
     <string name="sensor_info">Print All Sensors!!</string>
     <string name="sensor_name">name: %1$s</string>
-    <string name="sensor_power">power: %1$.3f</string>
+    <string name="sensor_type">type: %1$s</string>
+    <string name="sensor_power">power: %1$.3f[mA]</string>
     <string name="sensor_mindelay">mindelay: %1$d[us]</string>
 </resources>
