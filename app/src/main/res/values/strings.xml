@@ -5,4 +5,5 @@
     <string name="sensor_type">type: %1$s</string>
     <string name="sensor_power">power: %1$.3f[mA]</string>
     <string name="sensor_mindelay">mindelay: %1$d[us]</string>
+    <string name="sensor_values">values: %1$s</string>
 </resources>

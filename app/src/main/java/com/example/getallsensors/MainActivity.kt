@@ -13,14 +13,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var sensorManager: SensorManager
     private lateinit var sensorList: ArrayList<SensorObject>
-    private lateinit var sensors: ArrayList<SensorObject>
+    private lateinit var listViewAdapter: ListAdapter
+    private val sensorMap = HashMap<Sensor, SensorObject>()
 
     companion object{
         lateinit var instance: MainActivity
-        private set
+            private set
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,17 +41,38 @@ class MainActivity : AppCompatActivity(){
 
         sensorList = arrayListOf()
         for(sensor: Sensor in deviceSensors){
-            sensorList.add(SensorObject().apply {
+            val obj = SensorObject().apply {
                 name = sensor.name
                 power = sensor.power
                 type = sensorTypeToConstName(sensor.type)
                 mindelay = sensor.minDelay
-            })
+            }
+            sensorList.add(obj)
+            sensorMap[sensor] = obj
         }
 
         val listView = findViewById<ListView>(R.id.list_view)
-        val customAdapter = ListAdapter(this, sensorList)
-        listView.adapter = customAdapter
-
+        listViewAdapter = ListAdapter(this, sensorList)
+        listView.adapter = listViewAdapter
     }
+
+    override fun onResume() {
+        super.onResume()
+        for (sensor in sensorManager.getSensorList(Sensor.TYPE_ALL)) {
+            sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        sensorManager.unregisterListener(this)
+    }
+
+    override fun onSensorChanged(event: SensorEvent) {
+        val obj = sensorMap[event.sensor] ?: return
+        obj.values = event.values.clone()
+        listViewAdapter.notifyDataSetChanged()
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) { /* 未使用 */ }
 }
